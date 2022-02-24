@@ -41,14 +41,37 @@ catch (PDOException $e) {
 
 //1. Define the query
 
-//INSERT INTO pets (name, type, color)
-//VALUES ('Oliver', 'cat', 'black');
+$sql = "INSERT INTO pets (type, name, color)
+        VALUES (:type, :name, :color)";
 
 //2. Prepare the statement
+$statement = $dbh->prepare($sql);
 
 //3. Bind the parameters (if there are any)
+$type = 'kangaroo';
+$name = 'Joey';
+$color = 'purple';
+$statement->bindParam(':type', $type);
+$statement->bindParam(':name', $name);
+$statement->bindParam(':color', $color);
 
 //4. Execute the statement
+$statement->execute();
+$id = $dbh->lastInsertId();
+echo "<p>$name inserted with ID: $id</p>";
+
+//3b. Bind the parameters (if there are any)
+$type = 'parrot';
+$name = 'Polly';
+$color = 'green';
+$statement->bindParam(':type', $type);
+$statement->bindParam(':name', $name);
+$statement->bindParam(':color', $color);
+
+//4b. Execute the statement
+$statement->execute();
+$id = $dbh->lastInsertId();
+echo "<p>$name inserted with ID: $id</p>";
 
 //5. Process the result (if there is one)
 
@@ -56,12 +79,19 @@ catch (PDOException $e) {
 //Using a Prepared Statement:  UPDATE
 
 //1. Define the query
+$sql = "UPDATE pets SET name = :name WHERE type = :type";
 
 //2. Prepare the statement
+$statement = $dbh->prepare($sql);
 
 //3. Bind the parameters (if there are any)
+$name = 'Fred';
+$type = 'kangaroo';
+$statement->bindParam(':name', $name);
+$statement->bindParam(':type', $type);
 
 //4. Execute the statement
+$statement->execute();
 
 //5. Process the result (if there is one)
 
@@ -69,27 +99,63 @@ catch (PDOException $e) {
 //Using a Prepared Statement:  DELETE
 
 //1. Define the query
+$sql = "DELETE FROM pets WHERE id = :id";
 
 //2. Prepare the statement
+$statement = $dbh->prepare($sql);
 
 //3. Bind the parameters (if there are any)
+$id = 5;
+$statement->bindParam(':id', $id);
 
 //4. Execute the statement
+$statement->execute();
+echo "<p>Pet $id has been deleted</p>";
 
 //5. Process the result (if there is one)
 
 
-//Using a Prepared Statement:  SELECT
+//Using a Prepared Statement:  SELECT a single row
 
 //1. Define the query
+$sql = "SELECT * FROM pets WHERE id = :id";
 
 //2. Prepare the statement
+$statement = $dbh->prepare($sql);
 
 //3. Bind the parameters (if there are any)
+$id = 11;
+$statement->bindParam(':id', $id);
 
 //4. Execute the statement
+$statement->execute();
 
 //5. Process the result (if there is one)
+$row = $statement->fetch(PDO::FETCH_ASSOC);
+echo $row['id']." ".$row['name']." ".$row['type']." ".$row['color'];
+
+//Using a Prepared Statement:  SELECT a group of rows
+
+//1. Define the query
+$sql = "SELECT * FROM pets WHERE type = :type";
+
+//2. Prepare the statement
+$statement = $dbh->prepare($sql);
+
+//3. Bind the parameters (if there are any)
+$type = 'parrot';
+$statement->bindParam(':type', $type);
+
+//4. Execute the statement
+$statement->execute();
+
+//5. Process the result (if there is one)
+$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+foreach($result as $row) {
+    echo "<p>".$row['id']." ".$row['name']." ".$row['type']." ".
+        $row['color']."</p>";
+}
 ?>
+
 </body>
 </html>
