@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Find-a-Pet</title>
+</head>
+<body>
+    <h2>Find-a-Pet</h2>
+    <label>Enter a pet ID:
+        <input type="text" id="pet-id">
+    </label>
+    <button id="show">Lookup</button><br><br>
+
+    <!-- This is where the result will go -->
+    <div id="detail"></div>
+
+    <script src="//code.jquery.com/jquery.js"></script>
+
+    <script>
+        //When button is clicked
+        $('#pet-id').on('keyup', function(){
+
+            //Get value from text input
+            let id = $('#pet-id').val();
+
+            //Make the ajax call
+            $('#detail').load(
+                'lookup.php',
+                { petid : id }
+            );
+        });
+
+    </script>
+</body>
+</html>

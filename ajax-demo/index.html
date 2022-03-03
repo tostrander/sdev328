@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Demo</title>
+</head>
+<body>
+    <label>Enter a number: <input type="text" id="user-input"></label>
+    <button id='poem'>Click Me</button>
+    <div id='result'></div>
+
+    <script src="//code.jquery.com/jquery.js"></script>
+
+    <script>
+        $("#poem").on("click", function() {
+
+            let num = $("#user-input").val();
+
+           $("#result").load("poem.php", { num: num, name: "Devin" });
+           // alert($("#result").html());
+
+           //Change button text to Ouch!
+            $("#poem").html("Ouch!");
+
+        });
+    </script>
+
+</body>
+</html>
